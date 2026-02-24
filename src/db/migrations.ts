@@ -1,8 +1,10 @@
-import { getDB } from './client';
+import { initDB, getDB } from './client';
 import { CREATE_TABLES_SQL } from './schema';
 import { runSeed } from './seed';
 
 export async function runMigrations(): Promise<void> {
+  // WASM を非同期で初期化してからシンク操作を行う（Web でのタイムアウト対策）
+  await initDB();
   const db = getDB();
 
   db.withTransactionSync(() => {
