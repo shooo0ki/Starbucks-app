@@ -21,14 +21,17 @@ export default function WrongAnswersScreen() {
   const [sort, setSort] = useState<'wrong_count_desc' | 'last_wrong_at_desc'>('wrong_count_desc');
 
   const load = useCallback(() => {
-    setItems(getWrongAnswers(sort));
+    (async () => {
+      const result = await getWrongAnswers(sort);
+      setItems(result);
+    })();
   }, [sort]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
-  const handleStartReview = () => {
+  const handleStartReview = async () => {
     try {
-      const session = createPracticeSession('advanced', 'all');
+      const session = await createPracticeSession('advanced', 'all');
       setSession(session);
       router.push('/practice/orders');
     } catch {
@@ -39,7 +42,13 @@ export default function WrongAnswersScreen() {
   const handleResolve = (item: WrongAnswerItem) => {
     Alert.alert('消化済みにする', `「${item.drinkName}」を要復習リストから外しますか？`, [
       { text: 'キャンセル', style: 'cancel' },
-      { text: '消化済みにする', onPress: () => { resolveWrongAnswer(item.drinkId); load(); } },
+      {
+        text: '消化済みにする',
+        onPress: async () => {
+          await resolveWrongAnswer(item.drinkId);
+          load();
+        },
+      },
     ]);
   };
 

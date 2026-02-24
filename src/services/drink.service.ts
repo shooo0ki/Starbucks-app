@@ -57,7 +57,7 @@ function rowToDrink(row: DrinkRow): Drink {
   };
 }
 
-export function getDrinks(params: GetDrinksParams = {}): Drink[] {
+export async function getDrinks(params: GetDrinksParams = {}): Promise<Drink[]> {
   const db = getDB();
   const conditions: string[] = [];
   const args: (string | number)[] = [];
@@ -77,7 +77,7 @@ export function getDrinks(params: GetDrinksParams = {}): Drink[] {
 
   const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  const rows = db.getAllSync<DrinkRow>(
+  const rows = await db.getAllAsync<DrinkRow>(
     `SELECT d.*,
             up.status   AS progress_status,
             up.correct_rate
@@ -91,10 +91,10 @@ export function getDrinks(params: GetDrinksParams = {}): Drink[] {
   return rows.map(rowToDrink);
 }
 
-export function getDrinkById(id: number): DrinkDetail | null {
+export async function getDrinkById(id: number): Promise<DrinkDetail | null> {
   const db = getDB();
 
-  const drinkRow = db.getFirstSync<DrinkRow>(
+  const drinkRow = await db.getFirstAsync<DrinkRow>(
     `SELECT d.*,
             up.status   AS progress_status,
             up.correct_rate
@@ -105,34 +105,36 @@ export function getDrinkById(id: number): DrinkDetail | null {
   );
   if (!drinkRow) return null;
 
-  const stepRows = db.getAllSync<StepRow>(
+  const stepRows = await db.getAllAsync<StepRow>(
     'SELECT * FROM steps WHERE drink_id = ? ORDER BY step_order',
     [id]
   );
 
-  const steps: Step[] = stepRows.map((s) => {
-    const ingRows = db.getAllSync<IngredientRow>(
-      'SELECT * FROM ingredients WHERE step_id = ?',
-      [s.id]
-    );
-    return {
-      id: s.id,
-      drinkId: s.drink_id,
-      stepOrder: s.step_order,
-      isRequired: s.is_required === 1,
-      description: s.description,
-      ingredients: ingRows.map((i) => ({
-        id: i.id,
-        stepId: i.step_id,
-        name: i.name,
-        qtyShort: i.qty_short,
-        qtyTall: i.qty_tall,
-        qtyGrande: i.qty_grande,
-        qtyVenti: i.qty_venti,
-        unit: i.unit,
-      })),
-    };
-  });
+  const steps: Step[] = await Promise.all(
+    stepRows.map(async (s) => {
+      const ingRows = await db.getAllAsync<IngredientRow>(
+        'SELECT * FROM ingredients WHERE step_id = ?',
+        [s.id]
+      );
+      return {
+        id: s.id,
+        drinkId: s.drink_id,
+        stepOrder: s.step_order,
+        isRequired: s.is_required === 1,
+        description: s.description,
+        ingredients: ingRows.map((i) => ({
+          id: i.id,
+          stepId: i.step_id,
+          name: i.name,
+          qtyShort: i.qty_short,
+          qtyTall: i.qty_tall,
+          qtyGrande: i.qty_grande,
+          qtyVenti: i.qty_venti,
+          unit: i.unit,
+        })),
+      };
+    })
+  );
 
   return { ...rowToDrink(drinkRow), steps };
 }
@@ -156,50 +158,48 @@ export type CreateDrinkInput = {
   steps: StepInput[];
 };
 
-export function createDrink(input: CreateDrinkInput): number {
+export async function createDrink(input: CreateDrinkInput): Promise<number> {
   const db = getDB();
   const now = new Date().toISOString();
-  let drinkId = 0;
 
-  db.withTransactionSync(() => {
-    db.runSync(
-      `INSERT INTO drinks
-         (name_ja, short_code, category, sub_category, needs_sleeve,
-          special_equipment, recipe_type, practice_enabled, memo, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, 'user', ?, ?, ?, ?)`,
-      [
-        input.nameJa,
-        input.shortCode ?? null,
-        input.category,
-        input.subCategory ?? null,
-        input.needsSleeve ? 1 : 0,
-        input.specialEquipment ?? null,
-        input.practiceEnabled ? 1 : 0,
-        input.memo ?? null,
-        now,
-        now,
-      ]
+  await db.runAsync(
+    `INSERT INTO drinks
+       (name_ja, short_code, category, sub_category, needs_sleeve,
+        special_equipment, recipe_type, practice_enabled, memo, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, 'user', ?, ?, ?, ?)`,
+    [
+      input.nameJa,
+      input.shortCode ?? null,
+      input.category,
+      input.subCategory ?? null,
+      input.needsSleeve ? 1 : 0,
+      input.specialEquipment ?? null,
+      input.practiceEnabled ? 1 : 0,
+      input.memo ?? null,
+      now,
+      now,
+    ]
+  );
+  const row = await db.getFirstAsync<{ id: number }>('SELECT last_insert_rowid() as id');
+  const drinkId = row?.id ?? 0;
+
+  for (let i = 0; i < input.steps.length; i++) {
+    const s = input.steps[i];
+    await db.runAsync(
+      `INSERT INTO steps (drink_id, step_order, is_required, description, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [drinkId, i + 1, s.isRequired ? 1 : 0, s.description, now, now]
     );
-    const row = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
-    drinkId = row?.id ?? 0;
-
-    input.steps.forEach((s, i) => {
-      db.runSync(
-        `INSERT INTO steps (drink_id, step_order, is_required, description, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [drinkId, i + 1, s.isRequired ? 1 : 0, s.description, now, now]
-      );
-    });
-  });
+  }
 
   return drinkId;
 }
 
-export function updateDrink(id: number, input: CreateDrinkInput): void {
+export async function updateDrink(id: number, input: CreateDrinkInput): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
 
-  const existing = db.getFirstSync<{ recipe_type: string }>(
+  const existing = await db.getFirstAsync<{ recipe_type: string }>(
     'SELECT recipe_type FROM drinks WHERE id = ?',
     [id]
   );
@@ -207,47 +207,46 @@ export function updateDrink(id: number, input: CreateDrinkInput): void {
     throw new Error('ERR_FORBIDDEN');
   }
 
-  db.withTransactionSync(() => {
-    db.runSync(
-      `UPDATE drinks SET
-         name_ja = ?, short_code = ?, category = ?, sub_category = ?,
-         needs_sleeve = ?, special_equipment = ?, practice_enabled = ?,
-         memo = ?, updated_at = ?
-       WHERE id = ?`,
-      [
-        input.nameJa,
-        input.shortCode ?? null,
-        input.category,
-        input.subCategory ?? null,
-        input.needsSleeve ? 1 : 0,
-        input.specialEquipment ?? null,
-        input.practiceEnabled ? 1 : 0,
-        input.memo ?? null,
-        now,
-        id,
-      ]
+  await db.runAsync(
+    `UPDATE drinks SET
+       name_ja = ?, short_code = ?, category = ?, sub_category = ?,
+       needs_sleeve = ?, special_equipment = ?, practice_enabled = ?,
+       memo = ?, updated_at = ?
+     WHERE id = ?`,
+    [
+      input.nameJa,
+      input.shortCode ?? null,
+      input.category,
+      input.subCategory ?? null,
+      input.needsSleeve ? 1 : 0,
+      input.specialEquipment ?? null,
+      input.practiceEnabled ? 1 : 0,
+      input.memo ?? null,
+      now,
+      id,
+    ]
+  );
+
+  await db.runAsync('DELETE FROM steps WHERE drink_id = ?', [id]);
+
+  for (let i = 0; i < input.steps.length; i++) {
+    const s = input.steps[i];
+    await db.runAsync(
+      `INSERT INTO steps (drink_id, step_order, is_required, description, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, i + 1, s.isRequired ? 1 : 0, s.description, now, now]
     );
-
-    db.runSync('DELETE FROM steps WHERE drink_id = ?', [id]);
-
-    input.steps.forEach((s, i) => {
-      db.runSync(
-        `INSERT INTO steps (drink_id, step_order, is_required, description, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [id, i + 1, s.isRequired ? 1 : 0, s.description, now, now]
-      );
-    });
-  });
+  }
 }
 
-export function deleteDrink(id: number): void {
+export async function deleteDrink(id: number): Promise<void> {
   const db = getDB();
-  const existing = db.getFirstSync<{ recipe_type: string }>(
+  const existing = await db.getFirstAsync<{ recipe_type: string }>(
     'SELECT recipe_type FROM drinks WHERE id = ?',
     [id]
   );
   if (!existing || existing.recipe_type !== 'user') {
     throw new Error('ERR_FORBIDDEN');
   }
-  db.runSync('DELETE FROM drinks WHERE id = ?', [id]);
+  await db.runAsync('DELETE FROM drinks WHERE id = ?', [id]);
 }

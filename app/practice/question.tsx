@@ -28,13 +28,15 @@ export default function QuestionScreen() {
 
   useEffect(() => {
     if (!currentOrder) return;
-    const raw = getStepsForQuiz(currentOrder.drinkId, !!currentOrder.customLabel);
-    if (raw.length === 0) {
-      handleSkip();
-      return;
-    }
-    setSteps(shuffle(raw));
-    setSelectedIndex(null);
+    (async () => {
+      const raw = await getStepsForQuiz(currentOrder.drinkId, !!currentOrder.customLabel);
+      if (raw.length === 0) {
+        handleSkip();
+        return;
+      }
+      setSteps(shuffle(raw));
+      setSelectedIndex(null);
+    })();
   }, [currentOrderIndex, currentOrder?.drinkId]);
 
   if (!session || !currentOrder) {
@@ -72,10 +74,10 @@ export default function QuestionScreen() {
     }
   };
 
-  const handleAnswer = () => {
+  const handleAnswer = async () => {
     const userAnswer = steps.map((s) => s.id);
     const correctAnswer = [...steps].sort((a, b) => a.correctOrder - b.correctOrder).map((s) => s.id);
-    const isCorrect = submitResult({
+    const isCorrect = await submitResult({
       sessionId: session.sessionId,
       drinkId: currentOrder.drinkId,
       size: currentOrder.size,

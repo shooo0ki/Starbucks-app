@@ -9,12 +9,14 @@ export function useDrinks(params: GetDrinksParams = {}) {
 
   const load = useCallback(() => {
     setIsLoading(true);
-    try {
-      const result = getDrinks(params);
-      setDrinks(result);
-    } finally {
-      setIsLoading(false);
-    }
+    (async () => {
+      try {
+        const result = await getDrinks(params);
+        setDrinks(result);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, [params.category, params.subCategory, params.q]);
 
   useEffect(() => {

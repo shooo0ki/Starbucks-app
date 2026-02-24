@@ -15,7 +15,10 @@ export default function ReviewListScreen() {
   const [query, setQuery] = useState('');
 
   const load = useCallback(() => {
-    setNotes(getReviewNotes({ q: query || undefined }));
+    (async () => {
+      const result = await getReviewNotes({ q: query || undefined });
+      setNotes(result);
+    })();
   }, [query]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));

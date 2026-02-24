@@ -27,7 +27,7 @@ function rowToNote(r: ReviewRow): ReviewNote {
   };
 }
 
-export function getReviewNotes(params: { month?: string; q?: string } = {}): ReviewNote[] {
+export async function getReviewNotes(params: { month?: string; q?: string } = {}): Promise<ReviewNote[]> {
   const db = getDB();
   const conditions: string[] = [];
   const args: string[] = [];
@@ -42,30 +42,30 @@ export function getReviewNotes(params: { month?: string; q?: string } = {}): Rev
   }
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
-  const rows = db.getAllSync<ReviewRow>(
+  const rows = await db.getAllAsync<ReviewRow>(
     `SELECT * FROM review_notes ${where} ORDER BY shift_date DESC`,
     args
   );
   return rows.map(rowToNote);
 }
 
-export function getReviewNoteById(id: number): ReviewNote | null {
+export async function getReviewNoteById(id: number): Promise<ReviewNote | null> {
   const db = getDB();
-  const row = db.getFirstSync<ReviewRow>('SELECT * FROM review_notes WHERE id = ?', [id]);
+  const row = await db.getFirstAsync<ReviewRow>('SELECT * FROM review_notes WHERE id = ?', [id]);
   return row ? rowToNote(row) : null;
 }
 
-export function upsertReviewNote(input: CreateReviewInput): ReviewNote {
+export async function upsertReviewNote(input: CreateReviewInput): Promise<ReviewNote> {
   const db = getDB();
   const now = new Date().toISOString();
 
-  const existing = db.getFirstSync<{ id: number }>(
+  const existing = await db.getFirstAsync<{ id: number }>(
     'SELECT id FROM review_notes WHERE shift_date = ?',
     [input.shiftDate]
   );
 
   if (existing) {
-    db.runSync(
+    await db.runAsync(
       `UPDATE review_notes SET
          good_things = ?, mistakes = ?, feedback = ?,
          next_review = ?, mood = ?, updated_at = ?
@@ -76,10 +76,10 @@ export function upsertReviewNote(input: CreateReviewInput): ReviewNote {
         input.mood ?? null, now, existing.id,
       ]
     );
-    return getReviewNoteById(existing.id)!;
+    return (await getReviewNoteById(existing.id))!;
   }
 
-  db.runSync(
+  await db.runAsync(
     `INSERT INTO review_notes (shift_date, good_things, mistakes, feedback, next_review, mood, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
@@ -88,11 +88,11 @@ export function upsertReviewNote(input: CreateReviewInput): ReviewNote {
       now, now,
     ]
   );
-  const row = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
-  return getReviewNoteById(row!.id)!;
+  const row = await db.getFirstAsync<{ id: number }>('SELECT last_insert_rowid() as id');
+  return (await getReviewNoteById(row!.id))!;
 }
 
-export function deleteReviewNote(id: number): void {
+export async function deleteReviewNote(id: number): Promise<void> {
   const db = getDB();
-  db.runSync('DELETE FROM review_notes WHERE id = ?', [id]);
+  await db.runAsync('DELETE FROM review_notes WHERE id = ?', [id]);
 }

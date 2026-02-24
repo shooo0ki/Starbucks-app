@@ -10,9 +10,9 @@ type SettingsRow = {
   updated_at: string;
 };
 
-export function getSettings(): AppSettings {
+export async function getSettings(): Promise<AppSettings> {
   const db = getDB();
-  const row = db.getFirstSync<SettingsRow>('SELECT * FROM app_settings WHERE id = 1');
+  const row = await db.getFirstAsync<SettingsRow>('SELECT * FROM app_settings WHERE id = 1');
   if (!row) {
     return { defaultDifficulty: 'beginner', timerEnabled: false, qtyQuizEnabled: false, hapticsEnabled: true, updatedAt: '' };
   }
@@ -25,7 +25,7 @@ export function getSettings(): AppSettings {
   };
 }
 
-export function updateSettings(patch: Partial<Omit<AppSettings, 'updatedAt'>>): void {
+export async function updateSettings(patch: Partial<Omit<AppSettings, 'updatedAt'>>): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
   const fields: string[] = [];
@@ -39,19 +39,15 @@ export function updateSettings(patch: Partial<Omit<AppSettings, 'updatedAt'>>): 
   if (fields.length === 0) return;
   fields.push('updated_at = ?');
   args.push(now, 1);
-  db.runSync(`UPDATE app_settings SET ${fields.join(', ')} WHERE id = ?`, args);
+  await db.runAsync(`UPDATE app_settings SET ${fields.join(', ')} WHERE id = ?`, args);
 }
 
-export function resetAllData(): void {
+export async function resetAllData(): Promise<void> {
   const db = getDB();
-  db.withTransactionSync(() => {
-    db.execSync(`
-      DELETE FROM practice_results;
-      DELETE FROM practice_sessions;
-      DELETE FROM wrong_answers;
-      DELETE FROM user_progress;
-      DELETE FROM review_notes;
-      DELETE FROM drinks WHERE recipe_type = 'user';
-    `);
-  });
+  await db.runAsync('DELETE FROM practice_results');
+  await db.runAsync('DELETE FROM practice_sessions');
+  await db.runAsync('DELETE FROM wrong_answers');
+  await db.runAsync('DELETE FROM user_progress');
+  await db.runAsync('DELETE FROM review_notes');
+  await db.runAsync("DELETE FROM drinks WHERE recipe_type = 'user'");
 }

@@ -14,9 +14,11 @@ export default function ResultScreen() {
 
   useEffect(() => {
     if (!session) return;
-    const durationSec = Math.round((Date.now() - sessionStartMs) / 1000);
-    const correctCount = results.filter((r) => r.isCorrect).length;
-    finishSession(session.sessionId, correctCount, durationSec);
+    (async () => {
+      const durationSec = Math.round((Date.now() - sessionStartMs) / 1000);
+      const correctCount = results.filter((r) => r.isCorrect).length;
+      await finishSession(session.sessionId, correctCount, durationSec);
+    })();
   }, []);
 
   if (!session) {

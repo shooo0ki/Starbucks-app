@@ -31,10 +31,10 @@ type DrinkRow = {
   category: string;
 };
 
-export function createPracticeSession(
+export async function createPracticeSession(
   difficulty: Difficulty,
   categoryFilter: CategoryFilter
-): PracticeSession {
+): Promise<PracticeSession> {
   const db = getDB();
   const now = new Date().toISOString();
 
@@ -47,7 +47,7 @@ export function createPracticeSession(
     args.push(categoryFilter);
   }
 
-  let rows = db.getAllSync<DrinkRow>(
+  let rows = await db.getAllAsync<DrinkRow>(
     `SELECT d.id, d.name_ja, d.short_code, d.category
      FROM drinks d
      WHERE ${conditions.join(' AND ')}`,
@@ -78,9 +78,10 @@ export function createPracticeSession(
 
   // 難易度 advanced の場合、間違い問題を優先
   if (difficulty === 'advanced') {
-    const wrongIds = db
-      .getAllSync<{ drink_id: number }>('SELECT drink_id FROM wrong_answers WHERE resolved = 0')
-      .map((r) => r.drink_id);
+    const wrongRows = await db.getAllAsync<{ drink_id: number }>(
+      'SELECT drink_id FROM wrong_answers WHERE resolved = 0'
+    );
+    const wrongIds = wrongRows.map((r) => r.drink_id);
     if (wrongIds.length >= 5) {
       const wrongDrinks = rows.filter((r) => wrongIds.includes(r.id));
       const others = rows.filter((r) => !wrongIds.includes(r.id));
@@ -102,19 +103,19 @@ export function createPracticeSession(
     0.6;
 
   // カスタム候補
-  const customHotIce = getCustomOptions('hot_ice');
-  const customFrappe = getCustomOptions('frappuccino');
+  const customHotIce = await getCustomOptions('hot_ice');
+  const customFrappe = await getCustomOptions('frappuccino');
 
   // セッション INSERT
   // DB制約に合わせ、保存するカテゴリは旧値のみ。新カテゴリは 'all' で保存。
   const dbCategory = ['hot', 'ice', 'frappuccino'].includes(categoryFilter) ? categoryFilter : 'all';
 
-  db.runSync(
+  await db.runAsync(
     `INSERT INTO practice_sessions (started_at, difficulty, category_filter, correct_count, total_count)
      VALUES (?, ?, ?, 0, 10)`,
     [now, difficulty, dbCategory]
   );
-  const row = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
+  const row = await db.getFirstAsync<{ id: number }>('SELECT last_insert_rowid() as id');
   const sessionId = row?.id ?? 0;
 
   const orders: PracticeOrder[] = pool.map((d, i) => {
@@ -150,10 +151,10 @@ export function createPracticeSession(
  * hasCustom=true のとき optional ステップ（is_required=0）も含めて isCustom フラグを付与する。
  * hasCustom=false のとき optional ステップは除外する（カスタムなし注文のクイズ）。
  */
-export function getStepsForQuiz(drinkId: number, hasCustom = false): StepForQuiz[] {
+export async function getStepsForQuiz(drinkId: number, hasCustom = false): Promise<StepForQuiz[]> {
   const db = getDB();
   type StepRow = { id: number; step_order: number; description: string; is_required: number };
-  const rows = db.getAllSync<StepRow>(
+  const rows = await db.getAllAsync<StepRow>(
     'SELECT id, step_order, description, is_required FROM steps WHERE drink_id = ? ORDER BY step_order',
     [drinkId]
   );
@@ -170,19 +171,19 @@ export function getStepsForQuiz(drinkId: number, hasCustom = false): StepForQuiz
 
 // ── 採点・結果保存 ────────────────────────────────────────
 
-export function submitResult(params: {
+export async function submitResult(params: {
   sessionId: number;
   drinkId: number;
   size: DrinkSize;
   customLabel?: string | null;
   userAnswer: number[];   // stepId の順序
   correctAnswer: number[]; // stepId の正解順序
-}): boolean {
+}): Promise<boolean> {
   const db = getDB();
   const now = new Date().toISOString();
   const isCorrect = params.userAnswer.join(',') === params.correctAnswer.join(',');
 
-  db.runSync(
+  await db.runAsync(
     `INSERT INTO practice_results (session_id, drink_id, size, is_correct, user_answer_json, answered_at)
      VALUES (?, ?, ?, ?, ?, ?)`,
     [
@@ -197,44 +198,44 @@ export function submitResult(params: {
 
   // wrong_answers 更新
   if (!isCorrect) {
-    const existing = db.getFirstSync<{ id: number; wrong_count: number }>(
+    const existing = await db.getFirstAsync<{ id: number; wrong_count: number }>(
       'SELECT id, wrong_count FROM wrong_answers WHERE drink_id = ?',
       [params.drinkId]
     );
     if (existing) {
-      db.runSync(
+      await db.runAsync(
         'UPDATE wrong_answers SET wrong_count = ?, last_wrong_at = ?, resolved = 0 WHERE drink_id = ?',
         [existing.wrong_count + 1, now, params.drinkId]
       );
     } else {
-      db.runSync(
+      await db.runAsync(
         'INSERT INTO wrong_answers (drink_id, wrong_count, last_wrong_at) VALUES (?, 1, ?)',
         [params.drinkId, now]
       );
     }
   } else {
-    db.runSync(
+    await db.runAsync(
       'UPDATE wrong_answers SET last_correct_at = ? WHERE drink_id = ?',
       [now, params.drinkId]
     );
   }
 
   // user_progress 更新
-  _updateProgress(params.drinkId, isCorrect, now);
+  await _updateProgress(params.drinkId, isCorrect, now);
 
   return isCorrect;
 }
 
-function _updateProgress(drinkId: number, isCorrect: boolean, now: string): void {
+async function _updateProgress(drinkId: number, isCorrect: boolean, now: string): Promise<void> {
   const db = getDB();
   type ProgRow = { practice_count: number; correct_rate: number };
-  const existing = db.getFirstSync<ProgRow>(
+  const existing = await db.getFirstAsync<ProgRow>(
     'SELECT practice_count, correct_rate FROM user_progress WHERE drink_id = ?',
     [drinkId]
   );
 
   if (!existing) {
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO user_progress (drink_id, status, practice_count, correct_rate, last_practiced_at)
        VALUES (?, 'learning', 1, ?, ?)`,
       [drinkId, isCorrect ? 1.0 : 0.0, now]
@@ -248,7 +249,7 @@ function _updateProgress(drinkId: number, isCorrect: boolean, now: string): void
   // 直近5回の正解で mastered 判定（簡易: correct_rate >= 0.8 かつ count >= 5）
   const newStatus = newCount >= 5 && newRate >= 0.8 ? 'mastered' : 'learning';
 
-  db.runSync(
+  await db.runAsync(
     `UPDATE user_progress
      SET practice_count = ?, correct_rate = ?, status = ?, last_practiced_at = ?
      WHERE drink_id = ?`,
@@ -258,10 +259,10 @@ function _updateProgress(drinkId: number, isCorrect: boolean, now: string): void
 
 // ── セッション終了 ────────────────────────────────────────
 
-export function finishSession(sessionId: number, correctCount: number, durationSec: number): void {
+export async function finishSession(sessionId: number, correctCount: number, durationSec: number): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
-  db.runSync(
+  await db.runAsync(
     'UPDATE practice_sessions SET correct_count = ?, duration_sec = ?, finished_at = ? WHERE id = ?',
     [correctCount, durationSec, now, sessionId]
   );
@@ -269,13 +270,13 @@ export function finishSession(sessionId: number, correctCount: number, durationS
 
 // ── サマリー取得 ──────────────────────────────────────────
 
-export function getSessionSummary(
+export async function getSessionSummary(
   sessionId: number,
   results: QuizResult[]
-): SessionSummary {
+): Promise<SessionSummary> {
   const db = getDB();
   type SessRow = { correct_count: number; total_count: number; duration_sec: number };
-  const sess = db.getFirstSync<SessRow>(
+  const sess = await db.getFirstAsync<SessRow>(
     'SELECT correct_count, total_count, duration_sec FROM practice_sessions WHERE id = ?',
     [sessionId]
   );

@@ -17,13 +17,18 @@ const DIFFICULTIES: { key: Difficulty; label: string }[] = [
 export default function SettingsScreen() {
   const [settings, setSettings] = useState<AppSettings | null>(null);
 
-  const load = useCallback(() => { setSettings(getSettings()); }, []);
+  const load = useCallback(() => {
+    (async () => {
+      const data = await getSettings();
+      setSettings(data);
+    })();
+  }, []);
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
   if (!settings) return null;
 
-  const update = (patch: Partial<Omit<AppSettings, 'updatedAt'>>) => {
-    updateSettings(patch);
+  const update = async (patch: Partial<Omit<AppSettings, 'updatedAt'>>) => {
+    await updateSettings(patch);
     setSettings((prev) => prev ? { ...prev, ...patch } : prev);
   };
 
@@ -35,7 +40,10 @@ export default function SettingsScreen() {
         { text: 'キャンセル', style: 'cancel' },
         {
           text: 'リセット', style: 'destructive',
-          onPress: () => { resetAllData(); Alert.alert('完了', 'データをリセットしました'); },
+          onPress: async () => {
+            await resetAllData();
+            Alert.alert('完了', 'データをリセットしました');
+          },
         },
       ]
     );

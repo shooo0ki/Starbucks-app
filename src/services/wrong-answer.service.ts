@@ -12,7 +12,7 @@ export type WrongAnswerItem = {
   resolved: boolean;
 };
 
-export function getWrongAnswers(sort: 'wrong_count_desc' | 'last_wrong_at_desc' = 'wrong_count_desc'): WrongAnswerItem[] {
+export async function getWrongAnswers(sort: 'wrong_count_desc' | 'last_wrong_at_desc' = 'wrong_count_desc'): Promise<WrongAnswerItem[]> {
   const db = getDB();
   const orderBy = sort === 'wrong_count_desc'
     ? 'wa.wrong_count DESC, wa.last_wrong_at DESC'
@@ -24,7 +24,7 @@ export function getWrongAnswers(sort: 'wrong_count_desc' | 'last_wrong_at_desc' 
     last_correct_at: string | null; resolved: number;
   };
 
-  const rows = db.getAllSync<Row>(
+  const rows = await db.getAllAsync<Row>(
     `SELECT wa.id, wa.drink_id, d.name_ja, d.short_code, d.category,
             wa.wrong_count, wa.last_wrong_at, wa.last_correct_at, wa.resolved
      FROM wrong_answers wa
@@ -41,10 +41,10 @@ export function getWrongAnswers(sort: 'wrong_count_desc' | 'last_wrong_at_desc' 
   }));
 }
 
-export function resolveWrongAnswer(drinkId: number): void {
+export async function resolveWrongAnswer(drinkId: number): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
-  db.runSync(
+  await db.runAsync(
     'UPDATE wrong_answers SET resolved = 1, last_correct_at = ? WHERE drink_id = ?',
     [now, drinkId]
   );

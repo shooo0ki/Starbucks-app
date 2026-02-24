@@ -1,15 +1,15 @@
 import { getDB } from '@/db/client';
 import type { ProgressStatus } from '@/types/drink';
 
-export function recordFirstViewed(drinkId: number): void {
+export async function recordFirstViewed(drinkId: number): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
-  const existing = db.getFirstSync<{ id: number }>(
+  const existing = await db.getFirstAsync<{ id: number }>(
     'SELECT id FROM user_progress WHERE drink_id = ?',
     [drinkId]
   );
   if (!existing) {
-    db.runSync(
+    await db.runAsync(
       `INSERT INTO user_progress (drink_id, status, practice_count, correct_rate, first_viewed_at)
        VALUES (?, 'learning', 0, 0.0, ?)`,
       [drinkId, now]
@@ -17,10 +17,10 @@ export function recordFirstViewed(drinkId: number): void {
   }
 }
 
-export function updateProgressStatus(drinkId: number, status: ProgressStatus): void {
+export async function updateProgressStatus(drinkId: number, status: ProgressStatus): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
-  db.runSync(
+  await db.runAsync(
     `INSERT INTO user_progress (drink_id, status, practice_count, correct_rate, first_viewed_at)
      VALUES (?, ?, 0, 0.0, ?)
      ON CONFLICT(drink_id) DO UPDATE SET status = excluded.status`,

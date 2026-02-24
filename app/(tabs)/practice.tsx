@@ -33,11 +33,11 @@ export default function PracticeScreen() {
   const [category, setCategory] = useState<CategoryFilter>('all');
   const [isStarting, setIsStarting] = useState(false);
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (isStarting) return;
     setIsStarting(true);
     try {
-      const session = createPracticeSession(difficulty, category);
+      const session = await createPracticeSession(difficulty, category);
       setSession(session);
       router.push('/practice/orders');
     } catch (e: unknown) {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -6,12 +7,25 @@ import { usePracticeStore } from '@/store/practiceStore';
 import { getStepsForQuiz } from '@/services/practice.service';
 import { getPumpCount } from '@/services/custom-option.service';
 import { COLORS } from '@/constants/colors';
+import type { StepForQuiz } from '@/types/practice';
 
 export default function FeedbackScreen() {
   const router = useRouter();
   const { session, orderedOrders, currentOrderIndex, results, nextQuestion } = usePracticeStore();
 
   const latestResult = results[results.length - 1];
+
+  const [allSteps, setAllSteps] = useState<StepForQuiz[]>([]);
+
+  useEffect(() => {
+    if (!latestResult) return;
+    const hasCustom = !!latestResult.customLabel;
+    (async () => {
+      const steps = await getStepsForQuiz(latestResult.drinkId, hasCustom);
+      setAllSteps(steps);
+    })();
+  }, [latestResult?.drinkId, latestResult?.customLabel]);
+
   if (!session || !latestResult) {
     router.replace('/(tabs)/practice');
     return null;
@@ -25,7 +39,6 @@ export default function FeedbackScreen() {
     : null;
 
   // 正解ステップを取得して表示（カスタムの有無に合わせる）
-  const allSteps = getStepsForQuiz(latestResult.drinkId, hasCustom);
   const correctSteps = [...allSteps].sort((a, b) => a.correctOrder - b.correctOrder);
 
   // ユーザー回答の順序でステップを並べる

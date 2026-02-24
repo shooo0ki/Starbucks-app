@@ -35,11 +35,14 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(() => {
-    try {
-      setSummary(getDashboardSummary());
-    } catch (e) {
-      console.error('Dashboard load error:', e);
-    }
+    (async () => {
+      try {
+        const data = await getDashboardSummary();
+        setSummary(data);
+      } catch (e) {
+        console.error('Dashboard load error:', e);
+      }
+    })();
   }, []);
 
   useFocusEffect(
@@ -50,9 +53,17 @@ export default function HomeScreen() {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    load();
-    setRefreshing(false);
-  }, [load]);
+    (async () => {
+      try {
+        const data = await getDashboardSummary();
+        setSummary(data);
+      } catch (e) {
+        console.error('Dashboard load error:', e);
+      } finally {
+        setRefreshing(false);
+      }
+    })();
+  }, []);
 
   const masteredRate = summary?.masteredRate ?? 0;
   const masteredPct = Math.round(masteredRate * 100);

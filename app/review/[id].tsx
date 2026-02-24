@@ -21,7 +21,11 @@ export default function ReviewDetailScreen() {
   const [note, setNote] = useState<ReviewNote | null>(null);
 
   useEffect(() => {
-    if (id) setNote(getReviewNoteById(Number(id)));
+    if (!id) return;
+    (async () => {
+      const data = await getReviewNoteById(Number(id));
+      setNote(data);
+    })();
   }, [id]);
 
   if (!note) return null;
@@ -31,7 +35,10 @@ export default function ReviewDetailScreen() {
       { text: 'キャンセル', style: 'cancel' },
       {
         text: '削除', style: 'destructive',
-        onPress: () => { deleteReviewNote(note.id); router.back(); },
+        onPress: async () => {
+          await deleteReviewNote(note.id);
+          router.back();
+        },
       },
     ]);
   };

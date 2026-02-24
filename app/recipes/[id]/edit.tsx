@@ -17,14 +17,16 @@ export default function EditRecipeScreen() {
 
   useEffect(() => {
     if (!id) return;
-    const data = getDrinkById(Number(id));
-    setDrink(data);
-    setIsLoading(false);
+    (async () => {
+      const data = await getDrinkById(Number(id));
+      setDrink(data);
+      setIsLoading(false);
+    })();
   }, [id]);
 
-  const handleSubmit = (input: CreateDrinkInput) => {
+  const handleSubmit = async (input: CreateDrinkInput) => {
     try {
-      updateDrink(Number(id), input);
+      await updateDrink(Number(id), input);
       router.back();
     } catch (e) {
       Alert.alert('エラー', '保存に失敗しました');
@@ -40,9 +42,9 @@ export default function EditRecipeScreen() {
         {
           text: '削除',
           style: 'destructive',
-          onPress: () => {
+          onPress: async () => {
             try {
-              deleteDrink(Number(id));
+              await deleteDrink(Number(id));
               router.dismissAll();
               router.replace('/(tabs)/recipes');
             } catch (e) {

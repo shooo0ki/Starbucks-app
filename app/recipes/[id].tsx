@@ -38,13 +38,15 @@ export default function RecipeDetailScreen() {
 
   useEffect(() => {
     if (!id) return;
-    const drinkId = Number(id);
-    const data = getDrinkById(drinkId);
-    setDrink(data);
-    setIsLoading(false);
-    if (data) {
-      recordFirstViewed(drinkId);
-    }
+    (async () => {
+      const drinkId = Number(id);
+      const data = await getDrinkById(drinkId);
+      setDrink(data);
+      setIsLoading(false);
+      if (data) {
+        await recordFirstViewed(drinkId);
+      }
+    })();
   }, [id]);
 
   if (isLoading) {

@@ -44,11 +44,11 @@ export function getPumpCount(
   return candidates[0].pumps?.[size] ?? null;
 }
 
-export function getCustomOptions(applicableCategory?: string | null): CustomOption[] {
+export async function getCustomOptions(applicableCategory?: string | null): Promise<CustomOption[]> {
   const db = getDB();
   const where = applicableCategory ? 'WHERE applicable_category = ?' : '';
   const args = applicableCategory ? [applicableCategory] : [];
-  const rows = db.getAllSync<Row>(
+  const rows = await db.getAllAsync<Row>(
     `SELECT id, custom_type, option_name_ja, applicable_category, display_order
      FROM custom_options
      ${where}

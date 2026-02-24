@@ -30,13 +30,13 @@ export default function NewReviewScreen() {
   const [nextReview, setNextReview] = useState('');
   const [mood, setMood] = useState<Mood | null>(null);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!shiftDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
       Alert.alert('入力エラー', 'シフト日をYYYY-MM-DD形式で入力してください');
       return;
     }
     try {
-      upsertReviewNote({
+      await upsertReviewNote({
         shiftDate,
         goodThings: goodThings.trim() || undefined,
         mistakes: mistakes.trim() || undefined,
