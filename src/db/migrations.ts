@@ -6,6 +6,8 @@ export async function runMigrations(): Promise<void> {
   await initDB();
   const db = getDB();
 
+  // WAL モードで書き込みパフォーマンス向上
+  await db.execAsync('PRAGMA journal_mode = WAL;');
   await db.execAsync('PRAGMA foreign_keys = ON;');
   await db.execAsync(CREATE_TABLES_SQL);
 
