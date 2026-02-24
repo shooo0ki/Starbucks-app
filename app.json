@@ -1,30 +1,39 @@
 {
   "expo": {
-    "name": "starbucks-temp",
-    "slug": "starbucks-temp",
+    "name": "スタバ研修アプリ",
+    "slug": "starbucks-training",
     "version": "1.0.0",
+    "scheme": "starbucks-training",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.starbucks.training"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#00704A"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.starbucks.training"
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-secure-store"
+    ]
   }
 }

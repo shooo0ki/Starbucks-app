@@ -1,0 +1,12 @@
+[
+  { "customType": "syrup_change", "optionNameJa": "シロップ変更（V,C,CL,WM,M）",       "applicableCategory": "hot_ice",     "pumps": null,                              "displayOrder": 1 },
+  { "customType": "syrup_add",    "optionNameJa": "シロップ追加（V,C,CL,WM,M）",       "applicableCategory": "hot_ice",     "pumps": { "S": 1, "T": 2, "G": 3, "V": 4 }, "displayOrder": 2 },
+  { "customType": "chai",         "optionNameJa": "チャイシロップ",                     "applicableCategory": "hot_ice",     "pumps": { "S": 40, "T": 60, "G": 80, "V": 100 }, "displayOrder": 3 },
+  { "customType": "milk_change",  "optionNameJa": "COD,TER,CB,植物性ミルク,ブレベ",    "applicableCategory": "hot_ice",     "pumps": null,                              "displayOrder": 4 },
+  { "customType": "water_ice",    "optionNameJa": "お湯,水,氷,アイスミルク（SB,N,%）", "applicableCategory": "hot_ice",     "pumps": null,                              "displayOrder": 5 },
+
+  { "customType": "syrup_cbs",    "optionNameJa": "V,C（CBS用ポンプ）",                "applicableCategory": "frappuccino", "pumps": { "S": 2, "T": 2, "G": 3, "V": 4 }, "displayOrder": 1 },
+  { "customType": "syrup",        "optionNameJa": "CL,WM,M",                           "applicableCategory": "frappuccino", "pumps": { "S": 1, "T": 1, "G": 2, "V": 2 }, "displayOrder": 2 },
+  { "customType": "roast_add",    "optionNameJa": "ロースト（追加）",                   "applicableCategory": "frappuccino", "pumps": null,                              "displayOrder": 3 },
+  { "customType": "chai",         "optionNameJa": "チャイシロップ",                     "applicableCategory": "frappuccino", "pumps": { "S": 20, "T": 20, "G": 40, "V": 40 }, "displayOrder": 4 }
+]

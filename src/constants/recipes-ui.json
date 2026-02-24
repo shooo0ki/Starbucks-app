@@ -1,0 +1,705 @@
+[
+  {
+    "nameJa": "カフェミスト",
+    "shortCode": "MIS",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクをスチームする", "isRequired": true },
+      { "order": 2, "description": "シロップ 1 2 3 4", "isRequired": true },
+      { "order": 3, "description": "カップ半分までコーヒー→6mm下までスチームミルク＋フォームを縁まで", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "スターバックスラテ",
+    "shortCode": "L",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム 3〜5秒空気を含ませる", "isRequired": true },
+      { "order": 2, "description": "ショットを直接カップに受ける 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "(シロップ) 1 1 3 4", "isRequired": false },
+      { "order": 4, "description": "6mm下までスチームミルク＋フォームを縁まで", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "カフェアメリカーノ",
+    "shortCode": "A",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ショットを直接カップに受ける 1 2 3 4", "isRequired": true },
+      { "order": 2, "description": "(シロップ) 1 2 3 4", "isRequired": false },
+      { "order": 3, "description": "15mmまでお湯を入れる", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "カプチーノ",
+    "shortCode": "C",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム 6〜8秒空気を含ませる", "isRequired": true },
+      { "order": 2, "description": "ショットを直接カップに受ける 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "(シロップ 要望時) 1 2 3 4", "isRequired": false },
+      { "order": 4, "description": "ミルクとフォーム半々になるよう一気に注ぐ（ドライ/ウェット含む）", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "キャラメルマキアート",
+    "shortCode": "CM",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム 6〜8秒空気を含ませる", "isRequired": true },
+      { "order": 2, "description": "ショットをグラスに受ける 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "バニラシロップ 1 2 3 4", "isRequired": true },
+      { "order": 4, "description": "3/4までスチームミルク＋フォームを少し下まで", "isRequired": true },
+      { "order": 5, "description": "フォーム上からエスプレッソを注ぐ", "isRequired": true },
+      { "order": 6, "description": "キャラメルソースで3×3と二重丸を描く", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "カフェモカ",
+    "shortCode": "M",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "XHボタンでミルクをスチームする", "isRequired": true },
+      { "order": 2, "description": "ショットを直接 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "チョコレートシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "エスプレッソとチョコシロップをよく混ぜる", "isRequired": true },
+      { "order": 5, "description": "12mm下までスチームミルクを注ぎホイップをのせる", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ホワイトモカ",
+    "shortCode": "WM",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "XHボタンでミルクをスチームする", "isRequired": true },
+      { "order": 2, "description": "ショットを直接 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "ホワイトモカシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "エスプレッソとシロップをよく混ぜる", "isRequired": true },
+      { "order": 5, "description": "12mm下までスチームミルク＋ホイップ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "トリプルエスプレッソラテ",
+    "shortCode": "3EL",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム", "isRequired": true },
+      { "order": 2, "description": "ショット3", "isRequired": true },
+      { "order": 3, "description": "クラシックシロップ 1", "isRequired": true },
+      { "order": 4, "description": "6mm下までスチームミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "スターバックスブロンドラテ（オーツミルク）",
+    "shortCode": "L",
+    "category": "hot",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム 3〜5秒空気を含ませる", "isRequired": true },
+      { "order": 2, "description": "ブロンドエスプレッソショットを直接 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "シロップ要望時 1 2 3 4", "isRequired": false },
+      { "order": 4, "description": "6mm下までスチームミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "チャイティーラテ",
+    "shortCode": "CH",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム（T以上は一つ下線まで）", "isRequired": true },
+      { "order": 2, "description": "チャイコンセントレート 40 60 80 100", "isRequired": true },
+      { "order": 3, "description": "お湯をカップ半分まで", "isRequired": true },
+      { "order": 4, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "抹茶ティーラテ",
+    "shortCode": "GTL",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム（T以上は一つ下線まで）", "isRequired": true },
+      { "order": 2, "description": "クラシックシロップ 1 2 3 4", "isRequired": true },
+      { "order": 3, "description": "抹茶パウダー 2 2 3 4", "isRequired": true },
+      { "order": 4, "description": "お湯半分→混ぜる→6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ホットティー",
+    "shortCode": "T",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ティーバッグ 1 1 1 2", "isRequired": true },
+      { "order": 2, "description": "シロップ要望時 1 2 3 4", "isRequired": false },
+      { "order": 3, "description": "お湯15mm 抽出目安5分（ZOは7分）", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "イングリッシュブレックファストティーラテ",
+    "shortCode": "EB",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム 3〜5秒空気を含ませる", "isRequired": true },
+      { "order": 2, "description": "ティーバッグ 1 1 2 2", "isRequired": true },
+      { "order": 3, "description": "クラシックシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "お湯を半分まで注ぐ", "isRequired": true },
+      { "order": 5, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アールグレイティーラテ",
+    "shortCode": "EG",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム", "isRequired": true },
+      { "order": 2, "description": "ティーバッグ 1 1 2 2", "isRequired": true },
+      { "order": 3, "description": "バニラシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "お湯半分", "isRequired": true },
+      { "order": 5, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "カモミールティーラテ",
+    "shortCode": "CT",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム", "isRequired": true },
+      { "order": 2, "description": "ティーバッグ 1 1 2 2", "isRequired": true },
+      { "order": 3, "description": "クラシックシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "お湯半分", "isRequired": true },
+      { "order": 5, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ほうじ茶ティーラテ",
+    "shortCode": "HL",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム", "isRequired": true },
+      { "order": 2, "description": "ティーバッグ 1 1 2 2", "isRequired": true },
+      { "order": 3, "description": "クラシックシロップ 1 2 3 4", "isRequired": true },
+      { "order": 4, "description": "お湯半分", "isRequired": true },
+      { "order": 5, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ゼンクラウドウーロンティーラテ",
+    "shortCode": "ZO",
+    "category": "hot",
+    "subCategory": "ティー系",
+    "needsSleeve": true,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム", "isRequired": true },
+      { "order": 2, "description": "ティーバッグ 1 1 2 2", "isRequired": true },
+      { "order": 3, "description": "クラシックシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "お湯半分", "isRequired": true },
+      { "order": 5, "description": "6mm下までミルク＋フォーム", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ホットココア",
+    "shortCode": "HC",
+    "category": "hot",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム (XH)", "isRequired": true },
+      { "order": 2, "description": "チョコレートシロップ 2 3 4 5", "isRequired": true },
+      { "order": 3, "description": "少量ミルクで溶かし12mm下までミルク→ホイップ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ホワイトホットチョコレート",
+    "shortCode": "WHC",
+    "category": "hot",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム (XH)", "isRequired": true },
+      { "order": 2, "description": "ホワイトモカシロップ 2 3 4 5", "isRequired": true },
+      { "order": 3, "description": "少量ミルクで溶かし12mm下までミルク→ホイップ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "キャラメルクリーム",
+    "shortCode": "CRC",
+    "category": "hot",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクスチーム (XH)", "isRequired": true },
+      { "order": 2, "description": "キャラメルシロップ 2 3 4 5", "isRequired": true },
+      { "order": 3, "description": "少量ミルクで溶かし12mm下までミルク→ホイップ→キャラメルドリズル", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスカフェアメリカーノ",
+    "shortCode": "A",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "(シロップ要望時) 1 2 3 4", "isRequired": false },
+      { "order": 2, "description": "氷をすり切りまで入れる", "isRequired": true },
+      { "order": 3, "description": "ショットを直接 1 2 3 4", "isRequired": true },
+      { "order": 4, "description": "抽出後6mm下まで浄水→ステア", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイススターバックスラテ",
+    "shortCode": "L",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "(シロップ要望時) 1 2 3 4", "isRequired": false },
+      { "order": 2, "description": "ショット 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "線までミルク", "isRequired": true },
+      { "order": 4, "description": "6mm下まで氷", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスキャラメルマキアート",
+    "shortCode": "CM",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "グラスにショット 1 1 2 3", "isRequired": true },
+      { "order": 2, "description": "バニラシロップ 1 2 3 4", "isRequired": true },
+      { "order": 3, "description": "線までミルク", "isRequired": true },
+      { "order": 4, "description": "氷（仕上がり6mm下）", "isRequired": true },
+      { "order": 5, "description": "ショットを上から注ぎキャラメルドリズル", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスカフェモカ",
+    "shortCode": "M",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ソースが溶けやすいよう少量ミルク", "isRequired": true },
+      { "order": 2, "description": "ショット 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "チョコレートシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "混ぜる", "isRequired": true },
+      { "order": 5, "description": "線までミルク", "isRequired": true },
+      { "order": 6, "description": "氷 6mm", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスホワイトモカ",
+    "shortCode": "WM",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "少量ミルク", "isRequired": true },
+      { "order": 2, "description": "ショット 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "ホワモカシロップ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "混ぜる", "isRequired": true },
+      { "order": 5, "description": "線までミルク", "isRequired": true },
+      { "order": 6, "description": "氷 6mm", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスカプチーノ",
+    "shortCode": "C",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ムースフォーム作成（無脂肪乳150mlをバイタミックス #4）", "isRequired": true },
+      { "order": 2, "description": "ショット直接 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "一番下線までミルクを入れる", "isRequired": true },
+      { "order": 4, "description": "氷を上線まで→全量戻す", "isRequired": true },
+      { "order": 5, "description": "ムースフォームミルクを縁まで入れる", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイストリプルエスプレッソラテ",
+    "shortCode": "3EL",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ショットを直接 3", "isRequired": true },
+      { "order": 2, "description": "クラシックシロップ 1", "isRequired": true },
+      { "order": 3, "description": "線までミルク", "isRequired": true },
+      { "order": 4, "description": "6mm下まで氷", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスブロンドラテ（オーツミルク）",
+    "shortCode": "L",
+    "category": "ice",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ブロンドショット 1 1 2 3", "isRequired": true },
+      { "order": 2, "description": "シロップ要望時 1 2 3 4", "isRequired": false },
+      { "order": 3, "description": "線までオーツミルク", "isRequired": true },
+      { "order": 4, "description": "6mm下まで氷", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスティー",
+    "shortCode": "IT",
+    "category": "ice",
+    "subCategory": "ティー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "シロップ要望時 1 2 3 4", "isRequired": false },
+      { "order": 2, "description": "アイスティーを線まで→6mm下まで氷", "isRequired": true },
+      { "order": 3, "description": "（抽出ティーバッグ版）同サイズで半量お湯5分抽出→氷すり切り→注ぐ", "isRequired": false }
+    ]
+  },
+  {
+    "nameJa": "アイスチャイティーラテ",
+    "shortCode": "CH",
+    "category": "ice",
+    "subCategory": "ティー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "チャイコンセントレート 40 60 80 100", "isRequired": true },
+      { "order": 2, "description": "線までミルク", "isRequired": true },
+      { "order": 3, "description": "6mm下まで氷", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイス抹茶ティーラテ",
+    "shortCode": "GTL",
+    "category": "ice",
+    "subCategory": "ティー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクを真ん中線まで入れる", "isRequired": true },
+      { "order": 2, "description": "中身をバイタミックスに移す", "isRequired": true },
+      { "order": 3, "description": "抹茶パウダー 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "ブレンド S#2 TGV#1", "isRequired": true },
+      { "order": 5, "description": "全量を戻す", "isRequired": true },
+      { "order": 6, "description": "カップの縁6mm下まで氷", "isRequired": true },
+      { "order": 7, "description": "リッドをつける", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスココア",
+    "shortCode": "CO",
+    "category": "ice",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "少量ミルク", "isRequired": true },
+      { "order": 2, "description": "チョコレートシロップ 2 3 4 5", "isRequired": true },
+      { "order": 3, "description": "6mm下までミルク", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスホワイトチョコレート",
+    "shortCode": "IWC",
+    "category": "ice",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "少量ミルク", "isRequired": true },
+      { "order": 2, "description": "ホワイトモカフレーバーシロップ 2 3 4 5", "isRequired": true },
+      { "order": 3, "description": "6mm下までミルク", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "アイスキャラメルクリーム",
+    "shortCode": "CRC",
+    "category": "ice",
+    "subCategory": "チョコ・クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "キャラメルシロップ 2 3 4 5", "isRequired": true },
+      { "order": 2, "description": "線までミルク→12mm下まで氷→クリーム", "isRequired": true },
+      { "order": 3, "description": "キャラメルソースをドリズル", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "コーヒーフラペチーノ",
+    "shortCode": "CF",
+    "category": "frappuccino",
+    "subCategory": "コーヒー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "フラペチーノロースト 2 2 3 4", "isRequired": true },
+      { "order": 2, "description": "ミルクを底線まで→ピッチャー", "isRequired": true },
+      { "order": 3, "description": "氷とコーヒーベース 2 2 3 4 を入れる", "isRequired": true },
+      { "order": 4, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 5, "description": "注いでフラットリッド", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "キャラメルフラペチーノ",
+    "shortCode": "CRF",
+    "category": "frappuccino",
+    "subCategory": "コーヒー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ロースト 2 2 3 4", "isRequired": true },
+      { "order": 2, "description": "ミルクを底線まで→ピッチャー", "isRequired": true },
+      { "order": 3, "description": "キャラメルシロップ＋氷＋シロップベース 2 2 3 4", "isRequired": true },
+      { "order": 4, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 5, "description": "注ぎホイップ＋キャラメルソース", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ダークモカチップフラペチーノ",
+    "shortCode": "DF",
+    "category": "frappuccino",
+    "subCategory": "コーヒー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ロースト 2 2 3 4", "isRequired": true },
+      { "order": 2, "description": "ミルクを底線まで→ピッチャー", "isRequired": true },
+      { "order": 3, "description": "ダークパウダー＋チョコチップ＋氷＋ベース 2 2 3 4", "isRequired": true },
+      { "order": 4, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 5, "description": "注ぎホイップ＋ダークパウダー3〜5振り", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "エスプレッソアフォガート フラペチーノ",
+    "shortCode": "EAF",
+    "category": "frappuccino",
+    "subCategory": "コーヒー系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "アフォガート用クリームを底線まで", "isRequired": true },
+      { "order": 2, "description": "ピッチャーに移す", "isRequired": true },
+      { "order": 3, "description": "ホワモカシロップ＋氷 1 1 2 2", "isRequired": true },
+      { "order": 4, "description": "クリームベース 2 2 3 4", "isRequired": true },
+      { "order": 5, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 6, "description": "リストレットショット 1 2 2 3 を抽出し仕上げ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "バニラクリームフラペチーノ",
+    "shortCode": "VF",
+    "category": "frappuccino",
+    "subCategory": "クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクを底線まで→ピッチャー", "isRequired": true },
+      { "order": 2, "description": "バニラシロップ＋クリームベース＋氷 2 2 3 4", "isRequired": true },
+      { "order": 3, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 4, "description": "注ぎホイップ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "抹茶クリームフラペチーノ",
+    "shortCode": "GF",
+    "category": "frappuccino",
+    "subCategory": "クリーム系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルクを底線まで→ピッチャー", "isRequired": true },
+      { "order": 2, "description": "バニラシロップ＋抹茶パウダー＋クリームベース＋氷 2 2 3 4", "isRequired": true },
+      { "order": 3, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 4, "description": "注ぎホイップ", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "マンゴーパッションティー",
+    "shortCode": "MJ",
+    "category": "frappuccino",
+    "subCategory": "フルーツ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "マンゴーブレンドを真ん中まで（ティーなしは上線）", "isRequired": true },
+      { "order": 2, "description": "パッションティーを上線まで入れる", "isRequired": true },
+      { "order": 3, "description": "内容物をピッチャーへ (黄色)", "isRequired": true },
+      { "order": 4, "description": "氷を入れる", "isRequired": true },
+      { "order": 5, "description": "ブレンド S#2 / TGV#1", "isRequired": true },
+      { "order": 6, "description": "注ぎフラットリッド", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ストロベリーラベンダーティーラテ",
+    "shortCode": "ST",
+    "category": "seasonal",
+    "subCategory": "ティーラテ",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ストロベリーフレーバーベース（S以外は一つ下線）", "isRequired": true },
+      { "order": 2, "description": "ミルクをXHでスチームする", "isRequired": true },
+      { "order": 3, "description": "ホワイトモカシロップ 1 2 3 4", "isRequired": true },
+      { "order": 4, "description": "スチームミルクを12mm下まで注ぐ", "isRequired": true },
+      { "order": 5, "description": "ステアで混ぜる", "isRequired": true },
+      { "order": 6, "description": "ホイップをのせる", "isRequired": true },
+      { "order": 7, "description": "蜂蜜を一周かける", "isRequired": true },
+      { "order": 8, "description": "ストロベリーパウダーを一振り", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ジャンドゥーヤ チョコレート モカ",
+    "shortCode": "JD",
+    "category": "seasonal",
+    "subCategory": "エスプレッソ系",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ミルク XH", "isRequired": true },
+      { "order": 2, "description": "ショット 1 1 2 3", "isRequired": true },
+      { "order": 3, "description": "ジャンフレ 2 3 4 5", "isRequired": true },
+      { "order": 4, "description": "混ぜる", "isRequired": true },
+      { "order": 5, "description": "ホイップをのせる", "isRequired": true },
+      { "order": 6, "description": "パウダー5振り", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "ホワイト オペラ フラペチーノ",
+    "shortCode": "WOF",
+    "category": "seasonal",
+    "subCategory": "フラペチーノ",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ロースト 1", "isRequired": true },
+      { "order": 2, "description": "アーモンドミルクを底線まで→ノンデイリーピッチャー", "isRequired": true },
+      { "order": 3, "description": "ホワイトチョコパウダー 2", "isRequired": true },
+      { "order": 4, "description": "氷を入れる", "isRequired": true },
+      { "order": 5, "description": "クリームベース 2", "isRequired": true },
+      { "order": 6, "description": "ホイップ 1周半", "isRequired": true },
+      { "order": 7, "description": "ソース 6", "isRequired": true },
+      { "order": 8, "description": "パウダー 3", "isRequired": true }
+    ]
+  },
+  {
+    "nameJa": "オペラ フラペチーノ",
+    "shortCode": "OF",
+    "category": "seasonal",
+    "subCategory": "フラペチーノ",
+    "needsSleeve": false,
+    "recipeType": "builtin",
+    "practiceEnabled": true,
+    "steps": [
+      { "order": 1, "description": "ロースト 1", "isRequired": true },
+      { "order": 2, "description": "アーモンドミルクを底線まで→ノンデイリーピッチャー", "isRequired": true },
+      { "order": 3, "description": "ダークモカチップ 2", "isRequired": true },
+      { "order": 4, "description": "氷を入れる", "isRequired": true },
+      { "order": 5, "description": "クリームベース 2", "isRequired": true },
+      { "order": 6, "description": "ホイップ 1周半", "isRequired": true },
+      { "order": 7, "description": "ソース 6", "isRequired": true },
+      { "order": 8, "description": "パウダー 3", "isRequired": true }
+    ]
+  }
+]
