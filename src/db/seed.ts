@@ -51,28 +51,28 @@ const SEED_DRINKS: SeedDrink[] = [];
 export async function runSeed(): Promise<void> {
   const db = getDB();
   const now = new Date().toISOString();
-  db.withTransactionSync(() => {
-    const allDrinks = [...SEED_DRINKS, ...jsonToSeed(JSON_DRINKS)];
+  const allDrinks = [...SEED_DRINKS, ...jsonToSeed(JSON_DRINKS)];
 
+  await db.withTransactionAsync(async () => {
     for (const drink of allDrinks) {
       // short_code は hot/ice で重複するため name_ja + category で一意判定する
-      const dup = db.getFirstSync<{ id: number }>(
+      const dup = await db.getFirstAsync<{ id: number }>(
         "SELECT id FROM drinks WHERE name_ja = ? AND category = ? AND recipe_type = 'builtin' LIMIT 1",
         [drink.name_ja, drink.category]
       );
       if (dup) continue;
 
-      db.runSync(
+      await db.runAsync(
         `INSERT INTO drinks (name_ja, short_code, category, sub_category, needs_sleeve, special_equipment, recipe_type, practice_enabled, created_at, updated_at)
          VALUES (?, ?, ?, ?, ?, ?, 'builtin', 1, ?, ?)`,
         [drink.name_ja, drink.short_code, drink.category, drink.sub_category, drink.needs_sleeve, drink.special_equipment, now, now]
       );
-      const drinkRow = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
+      const drinkRow = await db.getFirstAsync<{ id: number }>('SELECT last_insert_rowid() as id');
       if (!drinkRow) continue;
       const drinkId = drinkRow.id;
 
       for (const step of drink.steps) {
-        db.runSync(
+        await db.runAsync(
           `INSERT INTO steps (drink_id, step_order, is_required, description, created_at, updated_at)
            VALUES (?, ?, ?, ?, ?, ?)`,
           [drinkId, step.step_order, step.is_required, step.description, now, now]
@@ -82,12 +82,12 @@ export async function runSeed(): Promise<void> {
 
     // custom_options シード（重複チェック）
     for (const opt of CUSTOM_OPTIONS) {
-      const dup = db.getFirstSync<{ id: number }>(
+      const dup = await db.getFirstAsync<{ id: number }>(
         'SELECT id FROM custom_options WHERE custom_type = ? AND option_name_ja = ? AND applicable_category IS ?',
         [opt.customType, opt.optionNameJa, opt.applicableCategory]
       );
       if (dup) continue;
-      db.runSync(
+      await db.runAsync(
         `INSERT INTO custom_options (custom_type, option_name_ja, applicable_category, display_order)
          VALUES (?, ?, ?, ?)`,
         [opt.customType, opt.optionNameJa, opt.applicableCategory, opt.displayOrder]
